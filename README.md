@@ -13,6 +13,7 @@ To add FusionDirectory plugins or remove them, update the fusiondirectory.plugin
 You will have to run this twice. This first run is required for setting up FusionDirectory.
 
 ###### First Run
+
     docker run \
     --volume /data/slapd/database:/var/lib/ldap \
     --volume /data/slapd/config:/etc/ldap/slapd.d \
@@ -24,10 +25,10 @@ After you download the fusiondirectory.conf file. Put it in /etc/fusiondirectory
 Verify you can login to the FusionDirectory site and then exit and stop the container.
 
 ###### Second Run
-Same as before but now you will need to specify a mount for the fusiondirectory.conf file:
-    --volume /data/fusiondirectory/config:/etc/fusiondirectory
+Same as before but now you will need to specify a mount for the fusiondirectory.conf to /etc/fusiondirectory and expose needed ports.
 
 Something like below:
+
     docker run \
     --volume /data/slapd/database:/var/lib/ldap \
     --volume /data/slapd/config:/etc/ldap/slapd.d \
