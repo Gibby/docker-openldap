@@ -1,8 +1,44 @@
-# osixia/openldap
+# gibby/openldap
 
-[![](https://badge.imagelayers.io/osixia/openldap:latest.svg)](https://imagelayers.io/?images=osixia/openldap:latest 'Get your own badge on imagelayers.io') | Latest release: 1.1.0 - OpenLDAP 2.4.40 -  [Changelog](CHANGELOG.md) | [Docker Hub](https://hub.docker.com/r/osixia/openldap/) 
+[![](https://badge.imagelayers.io/gibby/openldap:latest.svg)](https://imagelayers.io/?images=gibby/openldap:latest 'Get your own badge on imagelayers.io') | Latest release: 1 - OpenLDAP 2.4.40 -  [Changelog](CHANGELOG.md) | [Docker Hub](https://hub.docker.com/r/gibby/openldap/) 
 
-A docker image to run OpenLDAP.
+A docker image to run OpenLDAP. Forked from [osixia/docker-openldap](https://github.com/osixia/docker-openldap/issues)
+
+## Changes/Additions
+This now includes [FusionDirectory](https://www.fusiondirectory.org/)
+
+## How to use
+To add FusionDirectory plugins or remove them, update the fusiondirectory.plugins or fusiondirectory.plugins.ignore file.
+
+You will have to run this twice. This first run is required for setting up FusionDirectory.
+
+###### First Run
+    docker run \
+    --volume /data/slapd/database:/var/lib/ldap \
+    --volume /data/slapd/config:/etc/ldap/slapd.d \
+    -p 80:80 \
+    --it gibby/openldap bash
+
+Once running open a web browser, go to http://localhost and go through the setup.
+After you download the fusiondirectory.conf file. Put it in /etc/fusiondirectory directory and save it to a location for the 2nd run.
+Verify you can login to the FusionDirectory site and then exit and stop the container.
+
+###### Second Run
+Same as before but now you will need to specify a mount for the fusiondirectory.conf file:
+    --volume /data/fusiondirectory/config:/etc/fusiondirectory
+
+Something like below:
+    docker run \
+    --volume /data/slapd/database:/var/lib/ldap \
+    --volume /data/slapd/config:/etc/ldap/slapd.d \
+    --volume /data/fusiondirectory/config:/etc/fusiondirectory
+    -p 80:80 \
+    -p 389:389 \
+    -d gibby/openldap 
+
+
+
+# Everything below is from the forked README.md
 
 > OpenLDAP website : [www.openldap.org](http://www.openldap.org/)
 
